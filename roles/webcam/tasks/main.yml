@@ -22,4 +22,14 @@
 - debug:
     var: webcams
 
+- name: Create AAS and Submodel
+  ansible.builtin.include_tasks: register_aas.yml
+  when:
+    - webcams is defined
+    - webcams | length > 0
+
+- name: Delete Submodel
+  ansible.builtin.include_tasks: deregister_submodel.yml
+  when: (webcams is not defined) or (webcams | length == 0)
+
 
