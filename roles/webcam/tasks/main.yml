@@ -1,0 +1,25 @@
+---
+# tasks file for webcam
+- name: Get Video Devices
+  shell: "find /dev/video*"
+  register: cmd_ls
+
+- name: Set Video Device paths
+  ansible.builtin.set_fact:
+    video_device_paths: "{{ cmd_ls.stdout_lines }}"
+
+- name: Filter Video Device paths by webcams
+  ansible.builtin.include_tasks: filter_device_paths.yml
+  loop: "{{ video_device_paths }}"
+
+- name: Get USB Camera Meta info
+  ansible.builtin.include_tasks: get_usb_camera_meta_info.yml
+  loop: "{{ webcam_device_paths }}"
+  when:
+      - webcam_device_paths is defined
+      - webcam_device_paths | length > 0
+
+- debug:
+    var: webcams
+
+
