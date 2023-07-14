@@ -29,4 +29,4 @@
 
     - name: "Include ansible-facts"
       ansible.builtin.include_role:
-        name: "webcams"
+        name: "webcam"
