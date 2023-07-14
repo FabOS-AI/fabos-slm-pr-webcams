@@ -1,2 +1,21 @@
 ---
 # defaults file for webcam
+aas:
+  idShort: "{{ ansible_hostname }}"
+  identification:
+    id: "{{ aas_id }}"
+    idType: Custom
+  asset:
+    modelType:
+      name: Asset
+    kind: "Instance"
+    idShort: "{{ ansible_hostname }}"
+    identification:
+      id: ""
+      idType: IRDI
+
+aas_submodel:
+  identification:
+    idType: Custom
+    id: "webcams-{{ aas_id }}"
+  idShort: webcams
