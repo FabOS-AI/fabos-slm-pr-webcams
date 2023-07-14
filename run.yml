@@ -27,6 +27,6 @@
         aas_server_base_url: "http://aas-server:4001/aasServer"
       when: (aas_server_base_url is not defined) or (aas_server_base_url | length == 0)
 
-    - name: "Include ansible-facts"
+    - name: "Include webcam"
       ansible.builtin.include_role:
         name: "webcam"
