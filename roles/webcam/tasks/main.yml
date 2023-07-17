@@ -22,11 +22,17 @@
 - debug:
     var: webcams
 
-- name: Create AAS and Submodel
-  ansible.builtin.include_tasks: register_aas.yml
+- name: Create Submodel Descriptor at Registry and AAS/Submodel at Server
   when:
     - webcams is defined
     - webcams | length > 0
+  block:
+    - name: Register Submodel Descriptor at registry
+      ansible.builtin.include_tasks:
+
+    - name: Register AAS/Submodel at server
+      ansible.builtin.include_tasks: register_aas.yml
+
 
 - name: Delete Submodel
   ansible.builtin.include_tasks: deregister_submodel.yml
