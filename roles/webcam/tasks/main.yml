@@ -28,7 +28,7 @@
     - webcams | length > 0
   block:
     - name: Register Submodel Descriptor at registry
-      ansible.builtin.include_tasks:
+      ansible.builtin.include_tasks: helper/register_submodel_registry.yml
 
     - name: Register AAS/Submodel at server
       ansible.builtin.include_tasks: register_aas.yml
