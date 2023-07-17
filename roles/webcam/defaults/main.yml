@@ -1,5 +1,41 @@
 ---
 # defaults file for webcam
+aas_descriptor:
+  modelType:
+    name: AssetAdministrationShellDescriptor
+  idShort: "{{ ansible_hostname }}"
+  identification:
+    idType: Custom
+    id: "{{ aas_id }}"
+  endpoints: [ ]
+  asset:
+    keys:
+      - type: Asset
+        local: true
+        value: ''
+        idType: IRDI
+    modelType:
+      name: Asset
+    dataSpecification: [ ]
+    embeddedDataSpecifications: [ ]
+    idShort: "{{ ansible_hostname }}"
+    identification:
+      idType: IRDI
+      id: ''
+    kind: Instance
+  submodels: [ ]
+
+aas_submodel_descriptor:
+  modelType:
+    name: SubmodelDescriptor
+  idShort: "{{ aas_submodel.idShort }}"
+  identification:
+    idType: Custom
+    id: "{{ aas_submodel.identification.id }}"
+  endpoints:
+    - type: http
+      address: "{{ aas_server_base_url }}/shells/{{ aas_id }}/aas/submodels/{{ aas_submodel.idShort }}/submodel"
+
 aas:
   idShort: "{{ ansible_hostname }}"
   identification:
