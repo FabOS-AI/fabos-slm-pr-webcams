@@ -2,12 +2,22 @@
 - ansible.builtin.set_fact:
     webcam_path: "{{ item }}"
 
-- name: Get model info from v4l2-ctl
+- name: Get model info from v4l2-ctl (Model)
   shell: "v4l2-ctl --device={{ webcam_path }} --all | grep Model"
   register: cmd_v2l2_ctl_model_raw
 
 - ansible.builtin.set_fact:
-    webcam_model: "{{ cmd_v2l2_ctl_model_raw.stdout | split(':') | last | trim }}"
+    webcam_model: "{{ (cmd_v2l2_ctl_model_raw.stdout | split(':') | last | trim) | default('') }}"
+
+- name: Get model info from v4l2-ctl (Card Type)
+  when: webcam_model | length == 0
+  block:
+    - name: Get model info from v4l2-ctl (Card Type)
+      shell: "v4l2-ctl --device={{ webcam_path }} --all | grep Card"
+      register: cmd_v2l2_ctl_model_raw
+
+    - ansible.builtin.set_fact:
+        webcam_model: "{{ (cmd_v2l2_ctl_model_raw.stdout | split(':') | last | trim) | default('') }}"
 
 - name: Run usb-devices
   command: usb-devices
@@ -20,7 +30,9 @@
 - name: Identify USB Device
   ansible.builtin.set_fact:
     usb_device: "{{ device }}"
-  when: "webcam_model in device"
+  when:
+    - webcam_model | length != 0
+    - "webcam_model in device"
   loop: "{{usb_devices}}"
   loop_control:
     loop_var: device
