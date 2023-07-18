@@ -6,7 +6,7 @@
 
 - name: Set Values of Submodel Element Collection
   ansible.builtin.set_fact:
-    value: "{{ value + [{ 'idShort': (webcam_meta.key | replace('.', '')), 'valueType': 'string', 'value': webcam_meta.value }] }}"
+    value: "{{ value + [{ 'idShort': (webcam_meta.key | replace('.', '')), 'modelType': { 'name': 'Property' }, 'valueType': 'string', 'value': webcam_meta.value }] }}"
   loop: "{{ item | dict2items }}"
   loop_control:
     loop_var: webcam_meta
