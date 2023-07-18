@@ -10,7 +10,7 @@
 
 - name: Run webcams profiler
   hosts: all
-  gather_facts: no
+  gather_facts: yes
   become: yes
   tasks:
     - name: Assert input parameter
