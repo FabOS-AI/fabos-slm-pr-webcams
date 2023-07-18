@@ -41,7 +41,7 @@
     loop_var: cmd_out_line
   when:
     - index > index_device_caps
-    - index < index_meta_driver_info
+    - index < (index_meta_driver_info  | int)
 
 - name: Add Video Device path to Webcam path array
   ansible.builtin.set_fact:
