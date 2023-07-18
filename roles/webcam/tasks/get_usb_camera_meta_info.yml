@@ -5,6 +5,7 @@
 - name: Get model info from v4l2-ctl (Model)
   shell: "v4l2-ctl --device={{ webcam_path }} --all | grep Model"
   register: cmd_v2l2_ctl_model_raw
+  ignore_errors: true
 
 - ansible.builtin.set_fact:
     webcam_model: "{{ (cmd_v2l2_ctl_model_raw.stdout | split(':') | last | trim) | default('') }}"
