@@ -2,25 +2,30 @@
 # tasks file for webcam
 - name: Get Video Devices
   shell: "find /dev/video*"
-  register: cmd_ls
+  ignore_errors: true
+  register: cmd_find
 
-- name: Set Video Device paths
-  ansible.builtin.set_fact:
-    video_device_paths: "{{ cmd_ls.stdout_lines }}"
+- name: Lookup camera infos
+  when: cmd_find.rc == 0
+  block:
+    - name: Set Video Device paths
+      ansible.builtin.set_fact:
+        video_device_paths: "{{ cmd_find.stdout_lines }}"
 
-- name: Filter Video Device paths by webcams
-  ansible.builtin.include_tasks: filter_device_paths.yml
-  loop: "{{ video_device_paths }}"
+    - name: Filter Video Device paths by webcams
+      ansible.builtin.include_tasks: filter_device_paths.yml
+      loop: "{{ video_device_paths }}"
 
-- name: Get USB Camera Meta info
-  ansible.builtin.include_tasks: get_usb_camera_meta_info.yml
-  loop: "{{ webcam_device_paths }}"
-  when:
-      - webcam_device_paths is defined
-      - webcam_device_paths | length > 0
+    - name: Get USB Camera Meta info
+      ansible.builtin.include_tasks: get_usb_camera_meta_info.yml
+      loop: "{{ webcam_device_paths }}"
+      when:
+          - webcam_device_paths is defined
+          - webcam_device_paths | length > 0
 
-- debug:
-    var: webcams
+    - name: Print webcams list
+      ansible.builtin.debug:
+        var: webcams
 
 - name: Create Submodel Descriptor at Registry and AAS/Submodel at Server
   when:
