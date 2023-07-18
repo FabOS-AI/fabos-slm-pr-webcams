@@ -8,6 +8,18 @@
 - name: Lookup camera infos
   when: cmd_find.rc == 0
   block:
+    - name: Install v4l-utils - Ubuntu
+      when: ansible_distribution == 'Ubuntu'
+      ansible.builtin.apt:
+        pkg:
+          - v4l-utils
+      update_cache: yes
+      register: apt_result
+      retries: 100
+      delay: 10
+      until: apt_result.rc is not defined
+
+
     - name: Set Video Device paths
       ansible.builtin.set_fact:
         video_device_paths: "{{ cmd_find.stdout_lines }}"
