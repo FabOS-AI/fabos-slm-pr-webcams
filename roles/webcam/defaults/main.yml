@@ -7,7 +7,9 @@ aas_descriptor:
   identification:
     idType: Custom
     id: "{{ aas_id }}"
-  endpoints: [ ]
+  endpoints:
+    - type: http
+      address: "{{ aas_server_base_url }}/shells/{{ aas_id }}/aas"
   asset:
     keys:
       - type: Asset
@@ -37,10 +39,14 @@ aas_submodel_descriptor:
       address: "{{ aas_server_base_url }}/shells/{{ aas_id }}/aas/submodels/{{ aas_submodel.idShort }}/submodel"
 
 aas:
+  modelType:
+    name: AssetAdministrationShell
   idShort: "{{ ansible_hostname }}"
   identification:
     id: "{{ aas_id }}"
     idType: Custom
+  dataSpecification: []
+  embeddedDataSpecifications: []
   asset:
     modelType:
       name: Asset
@@ -49,9 +55,18 @@ aas:
     identification:
       id: ""
       idType: IRDI
+    dataSpecification: []
+    embeddedDataSpecifications: []
+  views: []
+  conceptDictionary: []
 
 aas_submodel:
+  idShort: webcams
   identification:
     idType: Custom
     id: "webcams-{{ aas_id }}"
-  idShort: webcams
+  dataSpecification: []
+  embeddedDataSpecifications: []
+  modelType:
+    name: Submodel
+  kind: Instance
