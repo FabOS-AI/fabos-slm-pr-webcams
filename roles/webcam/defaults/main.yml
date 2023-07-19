@@ -70,3 +70,9 @@ aas_submodel:
   modelType:
     name: Submodel
   kind: Instance
+  semanticId:
+    keys:
+      - type: ConceptDescription
+        idType: IRI
+        value: "https://fab-os.org/webcams"
+        local: false
