@@ -39,6 +39,14 @@
         name: "Property"
       valueType: "string"
       value: "{{ value }}"
+      kind: Instance
+      semanticId:
+        keys:
+          - type: ConceptDescription
+            local: false
+            value: "usb-camera"
+            idType: "IRDI"
+
   vars:
     id_short: "webcam-type"
     value: "usb-camera"
